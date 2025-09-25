@@ -133,7 +133,7 @@ class CardScanner implements Camera.PreviewCallback, Camera.AutoFocusCallback,
                 loadLibrary("cardioRecognizer");
             } else {
                 Log.w(Util.PUBLIC_LOG_TAG,
-                        "unsupported processor - card.io scanning requires ARMv7 or x86 architecture");
+                        "unsupported processor - card.io scanning requires ARM architecture");
                 manualFallbackForError = true;
             }
         } catch (UnsatisfiedLinkError e) {
@@ -171,7 +171,7 @@ class CardScanner implements Camera.PreviewCallback, Camera.AutoFocusCallback,
     }
 
     private static boolean usesSupportedProcessorArch() {
-        return nUseNeon() || nUseTegra() || nUseX86();
+        return nUseNeon() || nUseTegra();
     }
 
     static boolean processorSupported() {

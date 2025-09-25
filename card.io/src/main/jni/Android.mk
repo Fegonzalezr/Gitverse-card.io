@@ -2,16 +2,15 @@
 #
 # See the file "LICENSE.md" for the full license governing this code.
 #
-# Builds three targets:
-# - Static library for ARMv7 with NEON vector coprocessor (most devices)
-# - Static library for ARMv7 without coprocessor. (NVidia Tegra2 processor, maybe others)
-# - Very small static library to help figure out compatibility & work around some Android 4.0 bugs.
+# Builds these targets:
+# - Static library for ARMv7 with NEON vector coprocessor
+# - Static library for ARMv8 (most devices)
 
 LOCAL_PATH := $(call my-dir)
 LOCAL_DMZ_DIR := card.io-dmz
 
 # --- declare opencv prebuilt static libs ---------------------------------
-ifneq (,$(filter $(TARGET_ARCH_ABI),armeabi-v7a x86 arm64-v8a x86_64))
+ifneq (,$(filter $(TARGET_ARCH_ABI),armeabi-v7a arm64-v8a))
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := opencv_core
@@ -32,7 +31,7 @@ endif
 ifeq (1,1)
 
 include $(CLEAR_VARS)
-ifneq (,$(filter $(TARGET_ARCH_ABI),armeabi-v7a x86 arm64-v8a x86_64))
+ifneq (,$(filter $(TARGET_ARCH_ABI),armeabi-v7a arm64-v8a))
 
 LOCAL_MODULE := cardioRecognizer
 LOCAL_LDLIBS := -llog -L$(SYSROOT)/usr/lib -lz -ljnigraphics
@@ -48,7 +47,7 @@ LOCAL_CPPFLAGS += -DANDROID_HAS_NEON=1
 LOCAL_ARM_NEON := true
 endif
 
-ifneq (,$(filter $(TARGET_ARCH_ABI), arm64-v8a x86_64))
+ifneq (,$(filter $(TARGET_ARCH_ABI), arm64-v8a))
 LOCAL_CFLAGS += -DANDROID_HAS_NEON=0 ## 64-bit changed register names - requires asm fixes
 endif
 
@@ -59,7 +58,7 @@ endif
 
 # --- libcardioDecider.so ------------------------------------------------------------
 
-ifneq (,$(filter $(TARGET_ARCH_ABI), armeabi armeabi-v7a mips x86 arm64-v8a x86_64))
+ifneq (,$(filter $(TARGET_ARCH_ABI), armeabi armeabi-v7a arm64-v8a))
 
 include $(CLEAR_VARS)
 
