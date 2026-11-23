@@ -10,6 +10,17 @@ buildscript {
 
 task assemble {}
 
+plugins {
+  id "org.sonarqube" version "7.6.0.18749"
+}
+
+sonar {
+  properties {
+    property "sonar.projectKey", "Fegonzalezr_Gitverse-card.io"
+    property "sonar.organization", "fegonzalezr"
+  }
+}
+
 ext {
     sdkVersion = 36
     buildToolsVersion = '35.0.1'
